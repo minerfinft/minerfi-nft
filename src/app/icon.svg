@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>MinerFi</title>
+  <!-- Favicon cut of the MinerFi mark. Simplified from ui/Logo.tsx: the hard
+       offset is dropped and the shapes are scaled up, because at 16px the
+       layered version turns to mud. Colours are literal — a favicon is served
+       standalone and never sees the app's theme variables. The M is near-black
+       rather than white because #00c805 only reaches 2.3:1 against white. -->
+  <rect x="2.5" y="2.5" width="41" height="41" rx="11.5"
+        fill="#00c805" stroke="#101a13" stroke-width="3" />
+  <path d="M13.5 34V16L24 26.5 34.5 16v18"
+        fill="none" stroke="#0a120c" stroke-width="4.6"
+        stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="39" cy="9" r="6.5" fill="#f5a524" stroke="#101a13" stroke-width="3" />
+</svg>

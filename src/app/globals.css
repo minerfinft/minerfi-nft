@@ -1,26 +1,360 @@
 @import "tailwindcss";
 
+/* =========================================================================
+   MinerFi — NFT Business Tycoon
+
+   Layout language comes from the Zima Agency "NFT Collection" reference:
+   warm paper, hard un-blurred outlines, offset shadows, flat fills.
+   Colour comes from Robinhood: #00C805 on a calm canvas.
+
+   Two rules carry the whole palette:
+
+   1. Green is voltage, not a field. It is reserved for CTAs, active states,
+      "up / earning" numbers and the brand mark — never for large surfaces.
+      That discipline is what separates this from the old neon-lime build,
+      which used lime as the field colour and glared.
+   2. #00C805 against white is 2.3:1. It NEVER carries white text. Every
+      bright fill pairs with --on-bright (near-black) at 8.3:1, which is
+      exactly how Robinhood uses it.
+   ========================================================================= */
+
+/* Class-based dark mode. `.dark` is set on <html> before paint by the
+   inline script in layout.tsx, so there is no flash on first load. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* -------------------------------------------------------------------------
+   Runtime variables — the only things that change between the two themes.
+   ---------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* Surfaces */
+  --paper: #fbf8f1; /* page */
+  --card: #ffffff; /* raised panel */
+  --card-2: #f2efe4; /* inset / hover */
+
+  /* Ink — near-black with a green cast rather than a neutral grey */
+  --ink: #101a13; /* headings, hard strokes */
+  --ink-soft: #4b5a51; /* body copy */
+  --ink-faint: #84918a; /* labels, captions */
+
+  /* Strokes & the signature hard shadow */
+  --line: #101a13;
+  --line-soft: rgba(16, 26, 19, 0.16);
+  --shade: #101a13;
+
+  /* Accents used as FILLS — buttons, dots, flat shapes. Constant across both
+     themes, because they are always read against --on-bright, never against
+     the page. */
+  --green: #00c805; /* Robinhood Green — the one voltage colour */
+  --green-deep: #00a004; /* hover / press, and denser art fills */
+  --green-shade: #056b26; /* darkest facet of the gem */
+  --mint: #7ed9a4; /* soft green wash */
+  --amber: #f5a524;
+  --coral: #ff6f91;
+
+  /* Text and icons that sit ON a bright fill. 8.3:1 on green, 9.6:1 on amber. */
+  --on-bright: #0a120c;
+
+  /* Accents used as TEXT on the page — these must flip per theme. Raw #00c805
+     is only 2.1:1 on paper, so light mode uses a darkened green instead. */
+  --accent: #0b6b33; /* 6.1:1 on paper */
+  --up: #0b6b33;
+  --down: #c2384f;
+
+  /* Decorative circle strokes from the reference */
+  --ring-a: rgba(255, 111, 145, 0.5);
+  --ring-b: rgba(126, 217, 164, 0.75);
+  --ring-c: rgba(0, 200, 5, 0.35);
+
+  /* Alpha for the flat fills inside the SVG artwork. A wash that reads as a
+     pastel on paper turns muddy on the dark canvas, so dark mode pushes it up. */
+  --art-alpha: 0.5;
+
+  /* Every shape drawn on top of an artwork field uses this one tone, so the
+     cards differ by field hue only and still read as a set. It has to flip:
+     a dark green shape is invisible on a dark field. */
+  --art-shape: #056b26;
 }
+
+.dark {
+  color-scheme: dark;
+
+  /* Warm near-black rather than pure black or navy — Robinhood's canvas. */
+  --paper: #0a0e0b;
+  --card: #131a15;
+  --card-2: #1c251e;
+
+  --ink: #f0f4ee;
+  --ink-soft: #a2afa6;
+  --ink-faint: #708075;
+
+  --line: #2e3b32;
+  --line-soft: rgba(240, 244, 238, 0.14);
+  /* A near-black offset vanishes on this canvas, but making it green puts a
+     glowing edge on every card — the exact glare this palette exists to avoid.
+     A quiet grey-green sits lighter than the card and reads as a stacked
+     plate, keeping the voltage on CTAs where it belongs. */
+  --shade: #313e34;
+
+  /* Fills stay put; only the text accents move. */
+  --accent: #4fe07a; /* 11:1 on the dark page */
+  --up: #4fe07a;
+  --down: #ff7a90;
+
+  --ring-a: rgba(255, 111, 145, 0.35);
+  --ring-b: rgba(126, 217, 164, 0.35);
+  --ring-c: rgba(0, 200, 5, 0.3);
+
+  --art-alpha: 0.75;
+  --art-shape: #7ed9a4;
+}
+
+/* -------------------------------------------------------------------------
+   Theme — `inline` so utilities resolve the runtime vars at the use site.
+   ---------------------------------------------------------------------- */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-shade: var(--shade);
+
+  --color-green: var(--green);
+  --color-green-deep: var(--green-deep);
+  --color-green-shade: var(--green-shade);
+  --color-mint: var(--mint);
+  --color-coral: var(--coral);
+  --color-amber: var(--amber);
+  --color-on-bright: var(--on-bright);
+
+  --color-accent: var(--accent);
+  --color-up: var(--up);
+  --color-down: var(--down);
+
+  /* Rarity ladder — neutral → mint → green → amber → coral. Dots and fills
+     only; rarity labels themselves are always ink, so they stay legible. */
+  --color-common: var(--ink-faint);
+  --color-rare: var(--mint);
+  --color-epic: var(--green);
+  --color-legend: var(--amber);
+  --color-mythic: var(--coral);
+  --color-coin: var(--amber);
+
+  --color-ring-a: var(--ring-a);
+  --color-ring-b: var(--ring-b);
+  --color-ring-c: var(--ring-c);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Type — the reference pairs a quirky condensed display face with Montserrat */
+  --font-display: var(--font-unica), "Unica One", system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-spin-slow: spin 26s linear infinite;
+  --animate-dash: dash 2.6s linear infinite;
+  --animate-orbit: orbit 18s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(6px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(6px) rotate(-360deg);
+  }
+}
+
+/* =========================================================================
+   Base
+   ========================================================================= */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition:
+    background-color 0.35s var(--ease-out-expo),
+    color 0.35s var(--ease-out-expo);
+}
+
+::selection {
+  background: var(--green);
+  color: var(--on-bright);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--card-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--green);
+  border-radius: 99px;
+  border: 3px solid var(--card-2);
+}
+
+/* =========================================================================
+   Brand utilities — the reference's visual grammar, factored out
+   ========================================================================= */
+
+@utility container-mf {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 82rem;
+  padding-inline: 1.25rem;
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* The signature move: a hard, un-blurred offset shadow. No blur anywhere. */
+@utility shadow-hard {
+  box-shadow: 5px 5px 0 0 var(--shade);
+}
+@utility shadow-hard-sm {
+  box-shadow: 3px 3px 0 0 var(--shade);
+}
+@utility shadow-hard-lg {
+  box-shadow: 8px 8px 0 0 var(--shade);
+}
+
+/* Outlined panel used for every card on the page. */
+@utility card-hard {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 0.9rem;
+  box-shadow: 5px 5px 0 0 var(--shade);
+}
+
+/* Cards lift toward the pointer and drop their shadow to nothing on press. */
+@utility lift {
+  transition:
+    transform 0.22s var(--ease-out-expo),
+    box-shadow 0.22s var(--ease-out-expo),
+    border-color 0.22s var(--ease-out-expo);
+  &:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 0 var(--shade);
+  }
+}
+
+/* Small floating label that overlaps a card edge, as in the reference. */
+@utility sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 0 0 var(--shade);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.68rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Faint dot field standing in for the reference's paper texture. */
+@utility dot-grid {
+  background-image: radial-gradient(var(--line-soft) 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+}
+
+/* Hand-drawn underline used under accented headline words. */
+@utility marker-underline {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in oklab, var(--green) 50%, transparent),
+    color-mix(in oklab, var(--mint) 70%, transparent)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 91%;
+  background-size: 100% 0.32em;
+}
+
+@utility mask-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
+}
+
+@utility no-bar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* =========================================================================
+   Accessibility
+   ========================================================================= */
+
+:focus-visible {
+  outline: 2.5px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

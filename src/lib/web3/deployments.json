@@ -1,0 +1,24 @@
+{
+  "31337": {
+    "chainId": 31337,
+    "deployedAt": "2026-08-17T03:38:52.867Z",
+    "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "blockNumber": 133,
+    "contracts": {
+      "goldToken": "0x8a791620dd6260079bf849dc5567adc3f2fdc318",
+      "minerFiNft": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+      "goldRewards": "0xb7f8bc63bbcad18155201308c8f3540b07f84f5e"
+    }
+  },
+  "46630": {
+    "chainId": 46630,
+    "deployedAt": "2026-08-17T11:52:02.123Z",
+    "deployer": "0x335798D03D32cba70853783D0E17aF87951B9C75",
+    "blockNumber": 102723229,
+    "contracts": {
+      "goldToken": "0x0726b2510bd2b804179670a2deca2e08c9f4d347",
+      "minerFiNft": "0x71f02c31b2f7bc3c290ddabcb065f322cea8231e",
+      "goldRewards": "0xa7397360e8f680225e77d66347c4dd2253943368"
+    }
+  }
+}
