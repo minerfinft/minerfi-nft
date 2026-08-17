@@ -40,7 +40,7 @@ export function CommunityCta() {
               />
 
               <div className="relative mx-auto flex max-w-2xl flex-col items-center">
-                <LogoMark className="size-14 text-ink" />
+                <LogoMark className="size-14" />
 
                 <h2 className="mt-7 font-display text-[2.4rem] leading-[1.04] tracking-[0.01em] text-balance uppercase sm:text-[3.1rem]">
                   Your first shop is{" "}

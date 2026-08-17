@@ -57,11 +57,12 @@ export const metadata: Metadata = {
     description:
       "Every NFT has a real function. Build from a coffee shop to a global empire.",
   },
-  /* No `icons` or `images` entries on purpose — app/icon.svg,
+  /* No `icons` or `images` entries on purpose — app/icon.png,
      opengraph-image.png and twitter-image.png are picked up by the file
-     conventions, so the share card and tab mark track ui/Logo.tsx rather than
-     the old bitmap. Explicit metadata here would override them.
-     Regenerate the cards with `node scripts/generate-og.mjs`. */
+     conventions, so the tab mark and the share card are all cut from the one
+     brand logo. Explicit metadata here would override them.
+     Regenerate: `node scripts/make-logo-asset.mjs` for the mark itself, then
+     `node scripts/generate-og.mjs` for the cards. */
 };
 
 export const viewport: Viewport = {

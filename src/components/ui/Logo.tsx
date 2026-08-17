@@ -1,65 +1,51 @@
+import Image from "next/image";
+import logo from "../../../public/logo.png";
+
 /**
- * MinerFi mark, built on the reference's flat-shape grammar: a rounded token
- * tile with a hard un-blurred offset behind it, an "M" cut out of the face, and
- * one loose circle floating off the corner.
+ * The MinerFi mark — the real artwork, not a redraw of it.
  *
- * Strokes and the offset use `currentColor`, so the mark inverts with the theme
- * — near-black on paper, cream on the dark canvas. The "M" is deliberately NOT
- * white: Robinhood Green sits at 2.3:1 against white, so the counter-shape has
- * to be near-black to stay readable at any size.
+ * `public/logo.png` is derived from `public/logo.jpg` by
+ * `scripts/make-logo-asset.mjs`, which keys the black field out to alpha. That
+ * key is what makes the brand logo usable here at all: the source is authored
+ * on solid black, and dropped in as-is it reads as a black box on the paper
+ * canvas rather than as a mark. Keyed, the same artwork sits on paper and on
+ * the dark canvas with nothing behind it.
+ *
+ * Statically imported rather than referenced as `/logo.png` so the intrinsic
+ * size comes from the file (no layout shift) and the URL is content-hashed —
+ * the mark can be re-cut without anyone holding a stale copy.
+ *
+ * The artwork carries its own colour, so unlike the rest of the UI it does not
+ * flip with the theme. It does not need to: its lime clears 3:1 on both the
+ * paper and the dark canvas.
  */
 export function LogoMark({ className = "size-9" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" className={className} aria-hidden>
-      {/* the hard offset — same silhouette, shifted, in ink */}
-      <rect
-        x="8.5"
-        y="12.5"
-        width="32"
-        height="32"
-        rx="9.5"
-        fill="currentColor"
-      />
-
-      {/* face */}
-      <rect
-        x="4.5"
-        y="8.5"
-        width="32"
-        height="32"
-        rx="9.5"
-        fill="var(--green)"
-        stroke="currentColor"
-        strokeWidth="2.6"
-      />
-
-      {/* the M — one stroke, so it stays crisp down to 20px */}
-      <path
-        d="M13.2 32.2V19.4l7.3 7.4 7.3-7.4v12.8"
-        fill="none"
-        stroke="var(--on-bright)"
-        strokeWidth="3.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* loose circle off the corner — the reference's floating-shape motif */}
-      <circle
-        cx="38.5"
-        cy="10"
-        r="5.6"
-        fill="var(--amber)"
-        stroke="currentColor"
-        strokeWidth="2.2"
-      />
-    </svg>
+    <Image
+      src={logo}
+      /* Decorative: the wordmark beside it carries the name, and the one
+         standalone use sits inside a section that is already titled. */
+      alt=""
+      priority
+      /* The file is 512px, but nothing renders it above 56 (`size-14`, in the
+         community CTA). Left to infer from the import, next/image reads 512 as
+         the layout width and fetches its 640 and 1080 cuts for a 40px slot;
+         pinning 128 here caps the srcset at 128/256 — still 2× headroom on a
+         3× screen. The class is what actually sizes the box. */
+      width={128}
+      height={128}
+      className={className}
+    />
   );
 }
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 text-ink ${className}`}>
-      <LogoMark className="size-9 shrink-0" />
+      {/* A hair larger than the old drawn tile: this mark is fine-line rather
+          than a solid shape, so it needs the extra px to hold the same weight
+          next to the wordmark. */}
+      <LogoMark className="size-10 shrink-0" />
       <span className="font-display text-[1.4rem] leading-none tracking-[0.1em]">
         MINER<span className="text-accent">FI</span>
       </span>

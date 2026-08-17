@@ -11,12 +11,19 @@
  * Needs network access once, to pull Unica One + Montserrat from Google Fonts.
  */
 
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { chromium } from "playwright";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "src", "app");
+
+/* Inlined rather than linked: setContent has no base URL to resolve a relative
+   path against, and a data URI keeps the render self-contained. */
+const LOGO = `data:image/png;base64,${readFileSync(
+  join(ROOT, "public", "logo.png"),
+).toString("base64")}`;
 
 const W = 1200;
 const H = 630;
@@ -124,13 +131,7 @@ const html = `<!doctype html>
   <div class="pad">
     <div class="left">
       <div class="brand">
-        <svg width="52" height="52" viewBox="0 0 48 48">
-          <rect x="8.5" y="12.5" width="32" height="32" rx="9.5" fill="${C.ink}"/>
-          <rect x="4.5" y="8.5" width="32" height="32" rx="9.5" fill="${C.green}" stroke="${C.ink}" stroke-width="2.6"/>
-          <path d="M13.2 32.2V19.4l7.3 7.4 7.3-7.4v12.8" fill="none" stroke="${C.onBright}"
-                stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="38.5" cy="10" r="5.6" fill="${C.amber}" stroke="${C.ink}" stroke-width="2.2"/>
-        </svg>
+        <img src="${LOGO}" width="56" height="56" alt="">
         <span class="word">MINER<i>FI</i></span>
       </div>
 
@@ -145,7 +146,7 @@ const html = `<!doctype html>
     </div>
 
     <div class="right">
-      <div class="pill">minerfi.xyz</div>
+      <div class="pill">minerfinft.xyz</div>
 
       <svg class="gem" viewBox="0 0 74 74">
         <circle cx="39" cy="39" r="30" fill="${C.ink}"/>

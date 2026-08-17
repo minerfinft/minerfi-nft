@@ -85,6 +85,7 @@ chain has addresses recorded.
 ```
 contracts/            MinerFiNFT.sol, GoldToken.sol, GoldRewards.sol
 scripts/              compile, deploy, preflight, verify-flow, new-deployer
+                      plus the brand-asset cutters: make-logo-asset, generate-og
 src/app/              routes: / (landing) and /app (dashboard)
 src/components/       landing sections + ui/ primitives
 src/components/web3/  wallet gate, mint panel, portfolio, tx status
