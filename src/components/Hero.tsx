@@ -1,6 +1,7 @@
 import { HERO_STATS, SEASON } from "@/lib/data";
 import { HeroArt } from "./HeroArt";
 import { Button } from "./ui/Button";
+import { ContractAddress } from "./ui/ContractAddress";
 import { Icon } from "./ui/Icon";
 import { Reveal } from "./ui/Reveal";
 
@@ -62,9 +63,13 @@ export function Hero() {
               </div>
             </Reveal>
 
+            <Reveal delay={0.23}>
+              <ContractAddress className="mt-7" />
+            </Reveal>
+
             {/* the reference's three hard-outlined stat boxes, slightly tilted */}
             <Reveal delay={0.26}>
-              <dl className="mt-12 flex flex-wrap gap-4">
+              <dl className="mt-9 flex flex-wrap gap-4">
                 {HERO_STATS.map((s, i) => (
                   <div
                     key={s.label}

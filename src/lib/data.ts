@@ -33,6 +33,26 @@ export const MARQUEE_ITEMS = [
   "PLAY TO OWN",
 ] as const;
 
+/* -------------------------------------------------------------- token ---- */
+
+/**
+ * The MF token, live on Robinhood Chain mainnet.
+ *
+ * Deliberately not in `src/lib/web3/deployments.json`: that file records what
+ * `npm run contracts:deploy` created and is keyed by chain so the dashboard can
+ * read the right game contracts. MF was deployed outside that script, is not
+ * read by any contract call, and is only ever shown — so it belongs with the
+ * rest of the copy.
+ */
+export const TOKEN = {
+  symbol: "MF",
+  name: "Hood MinerFi",
+  chain: "Robinhood Chain",
+  address: "0x925fc29d3ad268013ae6468456f8667e482386cc",
+  explorer:
+    "https://robinhoodchain.blockscout.com/address/0x925fc29d3ad268013ae6468456f8667e482386cc",
+} as const;
+
 /* ------------------------------------------------- business progression --- */
 
 export type Tier = {
@@ -601,28 +621,56 @@ export const FAQ = [
 
 /* -------------------------------------------------------------- footer --- */
 
+/* Anything starting with "http" leaves the site and is rendered as such. The
+   rest are placeholders until the pages behind them exist. */
 export const FOOTER_COLUMNS = [
   {
     title: "Game",
-    links: ["Gameplay", "Utility NFT", "Business tiers", "Crafting", "Seasons"],
+    links: [
+      { label: "Gameplay", href: "#gameplay" },
+      { label: "Utility NFT", href: "#utility" },
+      { label: "Business tiers", href: "#utility" },
+      { label: "Crafting", href: "#top" },
+      { label: "Seasons", href: "#top" },
+    ],
   },
   {
     title: "Marketplace",
-    links: ["Browse all", "Shops", "Workers", "Land", "Mystery Box"],
+    links: [
+      { label: "Browse all", href: "#marketplace" },
+      { label: "Shops", href: "#marketplace" },
+      { label: "Workers", href: "#marketplace" },
+      { label: "Land", href: "#marketplace" },
+      { label: "Mystery Box", href: "#marketplace" },
+    ],
   },
   {
     title: "Community",
-    links: ["Discord", "X / Twitter", "Telegram", "Blog", "Creator program"],
+    links: [
+      { label: "X / Twitter", href: "https://x.com/HoodMinerfi" },
+      { label: "GitHub", href: "https://github.com/minerfinft/minerfi-nft" },
+      { label: "Leaderboard", href: "#leaderboard" },
+      { label: "FAQ", href: "#faq" },
+    ],
   },
   {
     title: "Company",
-    links: ["About", "Whitepaper", "Audits", "Careers", "Press kit"],
+    links: [
+      { label: "About", href: "#top" },
+      { label: "Whitepaper", href: "#top" },
+      { label: "Audits", href: "#top" },
+      { label: "Careers", href: "#top" },
+      { label: "Press kit", href: "#top" },
+    ],
   },
 ] as const;
 
+/* X and GitHub are the only two channels MinerFi actually runs. */
 export const SOCIALS = [
-  { label: "X", icon: "x" as IconName, href: "#" },
-  { label: "Discord", icon: "discord" as IconName, href: "#" },
-  { label: "Telegram", icon: "send" as IconName, href: "#" },
-  { label: "GitHub", icon: "github" as IconName, href: "#" },
+  { label: "X", icon: "x" as IconName, href: "https://x.com/HoodMinerfi" },
+  {
+    label: "GitHub",
+    icon: "github" as IconName,
+    href: "https://github.com/minerfinft/minerfi-nft",
+  },
 ];

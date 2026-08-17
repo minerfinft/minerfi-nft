@@ -68,6 +68,8 @@ export function CommunityCta() {
                     <a
                       key={s.label}
                       href={s.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
                       aria-label={s.label}
                       className="shadow-hard-sm grid size-11 place-items-center rounded-lg border-[1.5px] border-line bg-card text-ink transition-transform duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                     >

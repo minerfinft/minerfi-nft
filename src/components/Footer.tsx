@@ -1,5 +1,6 @@
 import { FOOTER_COLUMNS, SOCIALS } from "@/lib/data";
 import { NewsletterForm } from "./NewsletterForm";
+import { ContractAddress } from "./ui/ContractAddress";
 import { Icon } from "./ui/Icon";
 import { Logo } from "./ui/Logo";
 
@@ -23,6 +24,8 @@ export function Footer() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
                   aria-label={s.label}
                   className="grid size-9 place-items-center rounded-lg border-[1.5px] border-line bg-card text-ink transition-transform duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-[3px_3px_0_0_var(--shade)]"
                 >
@@ -40,23 +43,33 @@ export function Footer() {
                   {col.title}
                 </h3>
                 <ul className="mt-4 space-y-2.5">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#top"
-                        className="text-[0.84rem] text-ink-soft transition-colors hover:text-accent"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
+                  {col.links.map((link) => {
+                    const external = link.href.startsWith("http");
+                    return (
+                      <li key={link.label}>
+                        <a
+                          href={link.href}
+                          {...(external
+                            ? { target: "_blank", rel: "noreferrer noopener" }
+                            : null)}
+                          className="text-[0.84rem] text-ink-soft transition-colors hover:text-accent"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t-[1.5px] border-dashed border-line-soft pt-7 sm:flex-row">
+        <div className="mt-14">
+          <ContractAddress />
+        </div>
+
+        <div className="mt-7 flex flex-col items-center justify-between gap-4 border-t-[1.5px] border-dashed border-line-soft pt-7 sm:flex-row">
           <p className="font-mono text-[0.74rem] text-ink-faint">
             © {new Date().getFullYear()} MinerFi. All rights reserved.
           </p>

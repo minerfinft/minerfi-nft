@@ -12,7 +12,7 @@
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.36-363636?style=flat-square&logo=solidity)](https://soliditylang.org)
 [![Chain](https://img.shields.io/badge/Robinhood_Chain-4663-ccff00?style=flat-square)](https://docs.robinhood.com/chain)
 
-[**Live site**](https://minerfinft.xyz) · [**Dashboard**](https://minerfinft.xyz/app) · [**Contracts**](#live-on-robinhood-testnet)
+[**Live site**](https://minerfinft.xyz) · [**Dashboard**](https://minerfinft.xyz/app) · [**Contracts**](#live-on-robinhood-testnet) · [**@HoodMinerfi**](https://x.com/HoodMinerfi)
 
 </div>
 
@@ -70,6 +70,15 @@ Chain `46630`, deployed at block 102,723,229.
 `src/lib/web3/deployments.json` is the source of truth the app reads at runtime.
 Nothing else needs editing when contracts move — the frontend picks up whichever
 chain has addresses recorded.
+
+## MF token
+
+`MF` (Hood MinerFi) is an ERC-20 on Robinhood Chain mainnet `4663`:
+[`0x925fc29d…482386cc`](https://robinhoodchain.blockscout.com/address/0x925fc29d3ad268013ae6468456f8667e482386cc).
+
+It was not deployed by `contracts:deploy` and no contract call in the app reads
+it, so it lives in `src/lib/data.ts` as `TOKEN` — displayed on the site, never
+called. In-game GOLD is a separate token, minted by `GoldRewards`.
 
 ## Tech stack
 

@@ -14,7 +14,7 @@ export function Faq() {
             eyebrowIcon="badge"
             title="Questions,"
             accent="answered straight"
-            description="If something is still unclear, the Discord has a channel for new tycoons and someone is usually awake in it."
+            description="If something is still unclear, ask on X — @HoodMinerfi is where announcements land and where questions get answered."
           />
         </div>
 
